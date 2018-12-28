@@ -3,12 +3,11 @@ package com.pdl.blog.controller;
 import com.pdl.blog.message.LoginMessage;
 import com.pdl.blog.pojo.User;
 import com.pdl.blog.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -16,12 +15,15 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ApiOperation(value = "用户登录")
+    @ApiImplicitParam(name = "user", value = "从前端获取的登录user对象", dataType = "User", required = true)
+    @PostMapping(value = "/login")
     public LoginMessage login(@RequestBody User user) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         LoginMessage loginMessage = new LoginMessage();
         String str = user.getPassword();
