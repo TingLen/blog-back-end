@@ -1,10 +1,10 @@
 package com.pdl.blog.message;
 
-public class LoginMessage {
+public class ResMessage {
     private boolean success;
     private String message;
 
-    public boolean isSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 

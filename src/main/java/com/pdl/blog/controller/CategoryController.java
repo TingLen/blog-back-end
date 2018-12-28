@@ -1,14 +1,13 @@
 package com.pdl.blog.controller;
 
+import com.pdl.blog.message.ResMessage;
 import com.pdl.blog.pojo.Category;
 import com.pdl.blog.service.CategoryService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,22 @@ public class CategoryController {
     public List<Category> getCategory(){
         //调用service
         return categoryService.getCategory();
+    }
 
+    @ApiOperation(value = "更新category")
+    @ApiImplicitParam(name = "category", value = "需要更新的category", dataType = "Category", required = true)
+    @PostMapping("/update")
+    public ResMessage updateCategory(@RequestBody Category category){
+        ResMessage resMessage = new ResMessage();
+        //调用service
+        int i = categoryService.updateCategory(category);
+        if( i == 1){
+            resMessage.setMessage("更新成功");
+            resMessage.setSuccess(true);
+            return resMessage;
+        }
+        resMessage.setMessage("更新失败");
+        resMessage.setSuccess(false);
+        return resMessage;
     }
 }

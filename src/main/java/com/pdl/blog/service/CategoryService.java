@@ -22,4 +22,8 @@ public class CategoryService {
         return categoryMapper.selectByExample(example);
     }
 
+    public int updateCategory(Category category){
+        return categoryMapper.updateByPrimaryKey(category);
+    }
+
 }
