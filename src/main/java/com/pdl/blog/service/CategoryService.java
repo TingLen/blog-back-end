@@ -45,4 +45,24 @@ public class CategoryService {
         return categoryMapper.insert(category);
     }
 
+
+    /**
+     * 删除category
+     * 1.先查询是否存在要删除的tag
+     * 2.删除tag
+     * @param tag
+     * @return
+     */
+    public int deleteCategoryByTag(String tag){
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.or().andTagEqualTo(tag);
+        //查询是否存在
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+        if(categoryList.size() == 0){
+            return 0;
+        }
+        //调用删除sql
+        return categoryMapper.deleteByExample(categoryExample);
+    }
+
 }

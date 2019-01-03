@@ -58,7 +58,24 @@ public class CategoryController {
         resMessage.setSuccess(true);
         resMessage.setMessage("添加成功");
         return resMessage;
+    }
 
+    @ApiOperation(value = "删除category")
+    @ApiImplicitParam(name = "tag", value = "需要删除的category",dataType = "String", required = true)
+    @PostMapping("/delete")
+    public ResMessage deleteCategory(@RequestBody String tag){
+        ResMessage resMessage = new ResMessage();
+        //调用service
+        int i = categoryService.deleteCategoryByTag(tag);
+        if(i == 0){
+            resMessage.setMessage("删除失败，不存在该目录");
+            resMessage.setSuccess(false);
+            return resMessage;
+        }
+
+        resMessage.setSuccess(true);
+        resMessage.setMessage("删除成功");
+        return resMessage;
     }
 
 }
