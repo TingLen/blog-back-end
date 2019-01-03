@@ -26,4 +26,23 @@ public class CategoryService {
         return categoryMapper.updateByPrimaryKey(category);
     }
 
+    /**
+     * @param name
+     * 1.先查找是否存在同名category，若存在则返回错误
+     * 2.不存在再调用添加sql
+     */
+    public int addCategory(String tag){
+        CategoryExample example = new CategoryExample();
+        //查询是否已经存在
+        example.or().andTagEqualTo(tag);
+        List<Category> categoryList = categoryMapper.selectByExample(example);
+        if(categoryList.size() > 0){
+            return 0;
+        }
+        //调用添加方法
+        Category category = new Category();
+        category.setTag(tag);
+        return categoryMapper.insert(category);
+    }
+
 }

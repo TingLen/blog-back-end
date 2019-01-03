@@ -42,4 +42,23 @@ public class CategoryController {
         resMessage.setSuccess(false);
         return resMessage;
     }
+
+    @ApiOperation(value = "添加category")
+    @ApiImplicitParam(name = "tag", value = "需要添加的category",dataType = "String", required = true)
+    @PostMapping("/add")
+    public ResMessage addCategory(@RequestBody String tag){
+        ResMessage resMessage = new ResMessage();
+        //调用service
+        int i = categoryService.addCategory(tag);
+        if(i == 0 ){
+            resMessage.setSuccess(false);
+            resMessage.setMessage("已存在该目录");
+            return resMessage;
+        }
+        resMessage.setSuccess(true);
+        resMessage.setMessage("添加成功");
+        return resMessage;
+
+    }
+
 }
