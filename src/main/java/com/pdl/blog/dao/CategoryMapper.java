@@ -4,6 +4,7 @@ import com.pdl.blog.pojo.Category;
 import com.pdl.blog.pojo.CategoryExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface CategoryMapper {
     /**
@@ -93,4 +94,7 @@ public interface CategoryMapper {
      * @mbg.generated Sat Dec 29 00:18:36 CST 2018
      */
     int updateByPrimaryKey(Category record);
+
+    @Select("SELECT id FROM category WHERE tag = #{category}")
+    int getCidByCategory(String category);
 }

@@ -3,16 +3,20 @@ package com.pdl.blog.controller;
 import com.pdl.blog.message.ResMessage;
 import com.pdl.blog.pojo.Category;
 import com.pdl.blog.service.CategoryService;
+import com.pdl.blog.token.Token;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping("/category")
 public class CategoryController {
 
@@ -24,6 +28,13 @@ public class CategoryController {
     public List<Category> getCategory(){
         //调用service
         return categoryService.getCategory();
+    }
+
+    @ApiOperation(value = "根据id查找category")
+    @GetMapping("/getById")
+    public Category getCategoryById(@RequestParam("id") int id) throws Exception {
+        //调用service
+        return categoryService.getCategoryById(id);
     }
 
     @ApiOperation(value = "更新category")
@@ -45,7 +56,7 @@ public class CategoryController {
 
     @ApiOperation(value = "添加category")
     @ApiImplicitParam(name = "tag", value = "需要添加的category",dataType = "String", required = true)
-    @PostMapping("/add")
+    @PutMapping("/add")
     public ResMessage addCategory(@RequestBody String tag){
         ResMessage resMessage = new ResMessage();
         //调用service

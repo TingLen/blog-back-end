@@ -22,6 +22,20 @@ public class CategoryService {
         return categoryMapper.selectByExample(example);
     }
 
+    public Category getCategoryById(int id) throws Exception {
+        CategoryExample example = new CategoryExample();
+        example.or().andIdEqualTo(id);
+        List<Category> list = categoryMapper.selectByExample(example);
+        if(list.size() == 0){
+            throw new Exception("查询类名id不存在");
+        }
+        return list.get(0);
+    }
+
+    public int getCidByCategory(String category){
+        return categoryMapper.getCidByCategory(category);
+    }
+
     public int updateCategory(Category category){
         return categoryMapper.updateByPrimaryKey(category);
     }
