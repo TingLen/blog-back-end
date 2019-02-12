@@ -17,19 +17,23 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
         Cookie[] cookies = request.getCookies();
         String token = "";
         //获取token
+        if(cookies == null){
+            response.setStatus(401);
+            return true;
+        }
         for(Cookie cookie : cookies){
             if("token".equals(cookie.getName())){
                 token = cookie.getValue();
             }
         }
+        if("".equals(token)) response.setStatus(401);
         //验证token,验证失败则返回401错误
         if(!Token.Verification(token)) response.setStatus(401);
 
 
         //判断token是否过期,验证失败则返回401错误
         Date exp = Token.getExpDate(token);
-//        if(now.equals(exp)) response.setStatus(401);
-        response.setStatus(500);
+        if(now.equals(exp)) response.setStatus(401);
         return true;
     }
 }
